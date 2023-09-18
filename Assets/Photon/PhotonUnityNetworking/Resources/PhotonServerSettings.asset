@@ -40,6 +40,14 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - ChatRPC
+  - SetPos
+  - DestroyRPC
+  - SpawnBullet
+  - OnDamage
+  - OnDead
+  - RoomFull
+  - ItemSpawn
+  - SI
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

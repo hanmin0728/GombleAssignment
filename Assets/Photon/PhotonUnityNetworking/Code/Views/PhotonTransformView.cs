@@ -17,14 +17,14 @@ namespace Photon.Pun
     [HelpURL("https://doc.photonengine.com/en-us/pun/v2/gameplay/synchronization-and-state")]
     public class PhotonTransformView : MonoBehaviourPun, IPunObservable
     {
-        private float m_Distance;
-        private float m_Angle;
+        protected float m_Distance;
+        protected float m_Angle;
 
-        private Vector3 m_Direction;
-        private Vector3 m_NetworkPosition;
-        private Vector3 m_StoredPosition;
+        protected Vector3 m_Direction;
+        protected Vector3 m_NetworkPosition;
+        protected Vector3 m_StoredPosition;
 
-        private Quaternion m_NetworkRotation;
+        protected Quaternion m_NetworkRotation;
 
         public bool m_SynchronizePosition = true;
         public bool m_SynchronizeRotation = true;
@@ -33,7 +33,7 @@ namespace Photon.Pun
         [Tooltip("Indicates if localPosition and localRotation should be used. Scale ignores this setting, and always uses localScale to avoid issues with lossyScale.")]
         public bool m_UseLocal;
 
-        bool m_firstTake = false;
+        protected bool m_firstTake = false;
 
         public void Awake()
         {
@@ -54,14 +54,13 @@ namespace Photon.Pun
             m_firstTake = true;
         }
 
-        public void Update()
+        public virtual void Update()
         {
             var tr = transform;
 
             if (!this.photonView.IsMine)
             {
                 if (m_UseLocal)
-
                 {
                     tr.localPosition = Vector3.MoveTowards(tr.localPosition, this.m_NetworkPosition, this.m_Distance  * Time.deltaTime * PhotonNetwork.SerializationRate);
                     tr.localRotation = Quaternion.RotateTowards(tr.localRotation, this.m_NetworkRotation, this.m_Angle * Time.deltaTime * PhotonNetwork.SerializationRate);
@@ -74,10 +73,9 @@ namespace Photon.Pun
             }
         }
 
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             var tr = transform;
-
             // Write
             if (stream.IsWriting)
             {
